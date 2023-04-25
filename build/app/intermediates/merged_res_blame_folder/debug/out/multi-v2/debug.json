@@ -128,7 +128,7 @@
                     }
                 },
                 {
-                    "source": "/home/erhanbarisolmez/flutter/awesome/self_park/android/app/src/main/res/values/styles.xml",
+                    "source": "/home/erhanbarisolmez/Desktop/git/self_park/android/app/src/main/res/values/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
@@ -1132,7 +1132,7 @@
             "outputFile": "com.example.self_park.app-merged_res-11:/values-night-v8_values-night-v8.arsc.flat",
             "map": [
                 {
-                    "source": "/home/erhanbarisolmez/flutter/awesome/self_park/android/app/src/main/res/values-night/styles.xml",
+                    "source": "/home/erhanbarisolmez/Desktop/git/self_park/android/app/src/main/res/values-night/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

@@ -15,3 +15,20 @@ void main(List<String> arguments) async {
 
   await conn.close();
 }
+
+// void login() async {
+//   final response = PostgreSQLConnection("10.0.2.2", 5432, 'postgres',
+//       username: 'postgres', password: 'postgres');
+//   await response.open();
+//   print('bağlandı');
+//   var results = await response
+//       .query('''select * from tbl_admin where email='@mail' and "password"='@pass' ''',
+//           substitutionValues: {
+//         'mail': _Control().email.text,
+//         'password': _Control().password.text
+//       });
+
+//   // var results = await response.query('select * from tbl_user');
+
+//   await response.close();
+// }

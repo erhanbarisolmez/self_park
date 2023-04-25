@@ -68,7 +68,7 @@ class MyColumn extends StatelessWidget {
 
 TextField _passwordTextField() {
   return TextField(
-    controller: _Control().pass,
+    controller: _Control().password,
     obscureText: true,
     enableSuggestions: false,
     autocorrect: false,
@@ -86,7 +86,7 @@ SizedBox _mailTextField() {
   return SizedBox(
     width: 600,
     child: TextField(
-      controller: _Control().mail,
+      controller: _Control().email,
       keyboardType: TextInputType.emailAddress,
       decoration: const InputDecoration(
           border: OutlineInputBorder(
@@ -101,6 +101,7 @@ SizedBox _mailTextField() {
 
 class MyRow extends StatelessWidget {
   const MyRow({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -123,12 +124,35 @@ class MyRow extends StatelessWidget {
             width: 100,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-              onPressed: () {
-                login();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ControllerHome()));
+              onPressed: () async {
+                String email = _Control().email.text;
+                String password = _Control().password.text;
+                bool isAuthenticated = await _authenticateUser(
+                    email, password); // Kullanıcıyı doğrula
+                if (isAuthenticated) {
+                  Navigator.push(
+                      (context),
+                      MaterialPageRoute(
+                          builder: (context) => const ControllerHome()));
+                } else {
+                  // Kimlik doğrulaması başarısız
+                  showDialog(
+                      context: (context),
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Hata'),
+                          content:
+                              const Text('Kullanıcı mail ya da şifre hatalı.'),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Tamam'))
+                          ],
+                        );
+                      });
+                }
               },
               child: const Text(
                 'Admin ',
@@ -141,29 +165,35 @@ class MyRow extends StatelessWidget {
   }
 }
 
-void login() async {
-  final response = PostgreSQLConnection("10.0.2.2", 5432, 'postgres',
-      username: 'postgres', password: 'postgres');
-  await response.open();
-  print('bağlandı');
-  var results = await response
-      .query('''select * from tbl_admin where email='@mail' and "password"='@pass' ''',
-          substitutionValues: {
-        'mail': _Control().mail.text,
-        'password': _Control().pass.text
-      });
-
-  // var results = await response.query('select * from tbl_user');
-
-  await response.close();
-}
-
 class _PaddingUtility {
   final logoPadding = const EdgeInsets.only(top: 20);
   final normalPadding = const EdgeInsets.all(8.0);
 }
 
 class _Control {
-  TextEditingController mail = TextEditingController();
-  TextEditingController pass = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+}
+
+Future<PostgreSQLConnection> _connectToDB() async {
+  // PostgreSQL veritabanına bağlanmak için kullanılacak fonksiyon
+  PostgreSQLConnection connection = PostgreSQLConnection(
+      "10.0.2.2", 5432, 'postgres',
+      username: 'postgres', password: 'postgres');
+  await connection.open();
+  return connection;
+}
+
+Future<bool> _authenticateUser(String email, String password) async {
+  // Kullanıcının kimlik doğrulamasını kontrol etmek için kullanılacak fonksiyon
+  PostgreSQLConnection connection = await _connectToDB();
+  var result = await connection.query('''
+      select * from tbl_admin where email='erhan@gmail.com' and password='erhan123'
+    ''', substitutionValues: {'email': email, 'password': password});
+  await connection.close();
+  if (result.isNotEmpty) {
+    return true; // Kullanıcı kimlik doğrulaması başarılı
+  } else {
+    return false; // Kullanıcı kinlik doğrulaması başarısız
+  }
 }
