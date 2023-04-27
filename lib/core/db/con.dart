@@ -8,7 +8,6 @@ void connection() async {
   await conn.open();
 
   var results = await conn.query('select * from tbl_user');
-  print('Connect to Postgres database...');
   await conn.close();
 }
 
@@ -16,8 +15,6 @@ void main(List<String> arguments) async {
   final conn = PostgreSQLConnection("localhost", 5432, 'postgres',
       username: 'postgres', password: 'postgres');
   await conn.open();
-
-  print('Connect to Postgres database...');
 
   // CREATE USER DATA
 //   await conn.query('''
@@ -47,9 +44,9 @@ void main(List<String> arguments) async {
   // await conn.query("delete from tbl_user where email='ahmet@gmail.com' ");
 
 // SEED DB
-  final mockStr = await File('./ispark.json').readAsString();
-  final mockData = json.decode(mockStr);
-  final mockDataStream = Stream.fromIterable(mockData);
+  // final mockStr = await File('./ispark.json').readAsString();
+  // final mockData = json.decode(mockStr);
+  // final mockDataStream = Stream.fromIterable(mockData);
 
   // await for (var row in mockDataStream) {
   //   await conn.query('''

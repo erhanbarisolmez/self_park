@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:self_park/screens/ControllerHome/components/ParkAdd/index.dart';
 
 import 'components/OperatorAdd/index.dart';
 
@@ -67,7 +68,13 @@ class _ControlWidget extends StatelessWidget {
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.orange.shade100,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ParkAdd(),
+                      ));
+                },
                 child: const SizedBox(
                   width: 600,
                   child: Padding(
@@ -159,7 +166,13 @@ class _ControlWidgetRow extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 backgroundColor: Colors.orange.shade100,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ParkAdd(),
+                    ));
+              },
               child: const SizedBox(
                 width: 800,
                 child: Padding(
