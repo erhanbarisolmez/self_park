@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:self_park/screens/ControllerHome/components/ParkAdd/index.dart';
+import 'package:self_park/screens/ControllerHome/components/Reports/index.dart';
 
 import 'components/OperatorAdd/index.dart';
 
@@ -58,7 +59,7 @@ class _ControlWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
                       textAlign: TextAlign.center,
-                      'Operator Kayıt / Düzenle',
+                      'Add Operator / Edit',
                       style: TextStyle(color: Colors.black54, fontSize: 20),
                     ),
                   ),
@@ -81,7 +82,7 @@ class _ControlWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
                       textAlign: TextAlign.center,
-                      'Park Ekle / Düzenle',
+                      'Add Park / Edit',
                       style: TextStyle(color: Colors.black54, fontSize: 20),
                     ),
                   ),
@@ -91,14 +92,20 @@ class _ControlWidget extends StatelessWidget {
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.yellow.shade100,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Reports(),
+                      ));
+                },
                 child: const SizedBox(
                   width: 600,
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
                       textAlign: TextAlign.center,
-                      'Raporlar',
+                      'Reports',
                       style: TextStyle(color: Colors.black54, fontSize: 20),
                     ),
                   ),
@@ -115,7 +122,7 @@ class _ControlWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
                       textAlign: TextAlign.center,
-                      'Park Durumu Görüntüle',
+                      'View Parking Status',
                       style: TextStyle(color: Colors.black54, fontSize: 20),
                     ),
                   ),
@@ -156,7 +163,7 @@ class _ControlWidgetRow extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     textAlign: TextAlign.center,
-                    'Operator Kayıt / Düzenle',
+                    'Add Operator / Edit',
                     style: TextStyle(color: Colors.black54, fontSize: 20),
                   ),
                 ),
@@ -179,7 +186,7 @@ class _ControlWidgetRow extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     textAlign: TextAlign.center,
-                    'Park Ekle / Düzenle',
+                    'Add Park / Edit',
                     style: TextStyle(color: Colors.black54, fontSize: 20),
                   ),
                 ),
@@ -189,14 +196,20 @@ class _ControlWidgetRow extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 backgroundColor: Colors.yellow.shade100,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Reports(),
+                    ));
+              },
               child: const SizedBox(
                 width: 800,
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     textAlign: TextAlign.center,
-                    'Raporlar',
+                    'Reports',
                     style: TextStyle(color: Colors.black54, fontSize: 20),
                   ),
                 ),
@@ -213,7 +226,7 @@ class _ControlWidgetRow extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     textAlign: TextAlign.center,
-                    'Park Durumu Görüntüle',
+                    'View Parking Status',
                     style: TextStyle(color: Colors.black54, fontSize: 20),
                   ),
                 ),

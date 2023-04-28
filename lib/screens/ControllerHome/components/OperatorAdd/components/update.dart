@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:self_park/language/language_items.dart';
 
 class UpdateViewHome extends StatefulWidget {
@@ -46,7 +45,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
               children: [
                 const SizedBox(
                   child: Text(
-                    'Operator Update',
+                    'Edit Operator',
                     style: TextStyle(color: Colors.amber, fontSize: 28),
                   ),
                 ),
@@ -149,7 +148,7 @@ class _UpdateRowState extends State<UpdateRow> {
               children: [
                 const SizedBox(
                   child: Text(
-                    'Operator Update',
+                    'Edit Operator',
                     style: TextStyle(color: Colors.amber, fontSize: 28),
                   ),
                 ),

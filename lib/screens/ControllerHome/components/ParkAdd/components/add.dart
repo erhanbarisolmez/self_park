@@ -46,7 +46,7 @@ class _AddParkColumnState extends State<AddParkColumn> {
               children: [
                 const SizedBox(
                   child: Text(
-                    'Operator Create',
+                    'Add Park',
                     style: TextStyle(color: Colors.amber, fontSize: 28),
                   ),
                 ),
@@ -58,9 +58,9 @@ class _AddParkColumnState extends State<AddParkColumn> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
-                      labelText: LanguageItems.nameTitle,
+                      labelText: LanguageItems.parkNameTitle,
                       prefixIconColor: Colors.white,
-                      prefixIcon: Icon(Icons.person_2),
+                      prefixIcon: Icon(Icons.local_parking_rounded),
                       focusedBorder: OutlineInputBorder(),
                     ),
                   ),
@@ -68,39 +68,102 @@ class _AddParkColumnState extends State<AddParkColumn> {
                 const SizedBox(
                   height: 20,
                 ),
-                const SizedBox(
-                  width: 600,
-                  child: TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      labelText: LanguageItems.mailTitle,
-                      prefixIconColor: Colors.white,
-                      prefixIcon: Icon(Icons.mail_outline),
-                      focusedBorder: OutlineInputBorder(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    SizedBox(
+                      width: 270,
+                      child: TextField(
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          labelText: LanguageItems.districtTitle,
+                          prefixIconColor: Colors.white,
+                          prefixIcon: Icon(Icons.add_location_alt_sharp),
+                          focusedBorder: OutlineInputBorder(),
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(padding: EdgeInsets.only(left: 5)),
+                    SizedBox(
+                      width: 160,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          labelText: LanguageItems.fireeTimeTitle,
+                          prefixIconColor: Colors.white,
+                          prefixIcon: Icon(Icons.more_time_sharp),
+                          focusedBorder: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(left: 5)),
+                    SizedBox(
+                      width: 160,
+                      child: TextField(
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          labelText: LanguageItems.workHoursTitle,
+                          prefixIconColor: Colors.white,
+                          prefixIcon: Icon(Icons.work_history_outlined),
+                          focusedBorder: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const SizedBox(
-                  width: 600,
-                  child: TextField(
-                    keyboardType: TextInputType.visiblePassword,
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      labelText: LanguageItems.passwordTitle,
-                      prefixIconColor: Colors.white,
-                      prefixIcon: Icon(Icons.password_outlined),
-                      focusedBorder: OutlineInputBorder(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    SizedBox(
+                      width: 297,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          labelText: LanguageItems.capacity,
+                          prefixIconColor: Colors.white,
+                          prefixIcon: Icon(Icons.check_box_outlined),
+                          focusedBorder: OutlineInputBorder(),
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(padding: EdgeInsets.only(left: 6)),
+                    SizedBox(
+                      width: 297,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          labelText: LanguageItems.emptyCapacity,
+                          prefixIconColor: Colors.white,
+                          prefixIcon: Icon(Icons.check_box_outline_blank_sharp),
+                          focusedBorder: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -110,19 +173,19 @@ class _AddParkColumnState extends State<AddParkColumn> {
                         backgroundColor:
                             MaterialStatePropertyAll(Colors.black12),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text('Başarılı'),
-                              content: const Text('Operator Oluşturuldu.'),
+                              title: const Text('Success'),
+                              content: const Text('Park created.'),
                               actions: [
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: const Text('Tamam'),
+                                  child: const Text('OK'),
                                 ),
                               ],
                             );
@@ -130,7 +193,7 @@ class _AddParkColumnState extends State<AddParkColumn> {
                         );
                       },
                       child: const Text(
-                        'Create',
+                        'OK',
                       )),
                 )
               ],
@@ -164,7 +227,7 @@ class _AddParkRowState extends State<AddParkRow> {
               children: [
                 const SizedBox(
                   child: Text(
-                    'Park Create',
+                    'Add Park',
                     style: TextStyle(color: Colors.amber, fontSize: 28),
                   ),
                 ),
@@ -190,7 +253,7 @@ class _AddParkRowState extends State<AddParkRow> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     SizedBox(
-                      width: 300,
+                      width: 270,
                       child: TextField(
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
@@ -206,32 +269,32 @@ class _AddParkRowState extends State<AddParkRow> {
                     ),
                     Padding(padding: EdgeInsets.only(left: 5)),
                     SizedBox(
-                      width: 150,
+                      width: 160,
                       child: TextField(
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          labelText: LanguageItems.mailTitle,
+                          labelText: LanguageItems.fireeTimeTitle,
                           prefixIconColor: Colors.white,
-                          prefixIcon: Icon(Icons.more_time_outlined),
+                          prefixIcon: Icon(Icons.more_time_sharp),
                           focusedBorder: OutlineInputBorder(),
                         ),
                       ),
                     ),
                     Padding(padding: EdgeInsets.only(left: 5)),
                     SizedBox(
-                      width: 150,
+                      width: 160,
                       child: TextField(
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          labelText: LanguageItems.mailTitle,
+                          labelText: LanguageItems.workHoursTitle,
                           prefixIconColor: Colors.white,
-                          prefixIcon: Icon(Icons.mail_outline),
+                          prefixIcon: Icon(Icons.work_history_outlined),
                           focusedBorder: OutlineInputBorder(),
                         ),
                       ),
@@ -241,22 +304,47 @@ class _AddParkRowState extends State<AddParkRow> {
                 const SizedBox(
                   height: 20,
                 ),
-                const SizedBox(
-                  width: 600,
-                  child: TextField(
-                    keyboardType: TextInputType.visiblePassword,
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      labelText: LanguageItems.passwordTitle,
-                      prefixIconColor: Colors.white,
-                      prefixIcon: Icon(Icons.password_outlined),
-                      focusedBorder: OutlineInputBorder(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    SizedBox(
+                      width: 297,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          labelText: LanguageItems.capacity,
+                          prefixIconColor: Colors.white,
+                          prefixIcon: Icon(Icons.check_box_outlined),
+                          focusedBorder: OutlineInputBorder(),
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(padding: EdgeInsets.only(left: 6)),
+                    SizedBox(
+                      width: 297,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          labelText: LanguageItems.emptyCapacity,
+                          prefixIconColor: Colors.white,
+                          prefixIcon: Icon(Icons.check_box_outline_blank_sharp),
+                          focusedBorder: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -271,14 +359,14 @@ class _AddParkRowState extends State<AddParkRow> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text('Başarılı'),
-                              content: const Text('Operator Oluşturuldu.'),
+                              title: const Text('Success'),
+                              content: const Text('Park Created.'),
                               actions: [
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: const Text('Tamam'),
+                                  child: const Text('OK'),
                                 ),
                               ],
                             );
@@ -286,7 +374,7 @@ class _AddParkRowState extends State<AddParkRow> {
                         );
                       },
                       child: const Text(
-                        'Create',
+                        'OK',
                       )),
                 )
               ],

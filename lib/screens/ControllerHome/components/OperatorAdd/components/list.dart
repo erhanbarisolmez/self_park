@@ -24,9 +24,7 @@ class _ListViewState extends State<ListViewHome> {
         },
         itemBuilder: (context, index) {
           index += 1;
-          const SizedBox(
-            child: Text('data'),
-          );
+
           return SizedBox(
             height: 100,
             child: Row(

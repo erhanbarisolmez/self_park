@@ -39,7 +39,7 @@ class _LokasyonColumnState extends State<LokasyonColumn> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Lokasyon Al',
+          Text('Send  Location',
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   )),
@@ -67,7 +67,7 @@ class _LokasyonColumnState extends State<LokasyonColumn> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.amber),
                         onPressed: () {},
-                        child: const Text('Devam')),
+                        child: const Text('OK')),
                   ))
             ],
           ),
@@ -96,7 +96,7 @@ class _LokasyonRowState extends State<LokasyonRow> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Lokasyon Al',
+          Text('Send Location',
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   )),
@@ -124,7 +124,7 @@ class _LokasyonRowState extends State<LokasyonRow> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.amber),
                         onPressed: () {},
-                        child: const Text('Devam')),
+                        child: const Text('OK')),
                   ))
             ],
           ),

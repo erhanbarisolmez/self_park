@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:self_park/language/language_items.dart';
+import 'package:self_park/core/db/query/controller/addOperator/addQuery.dart';
 
 class AddViewHome extends StatefulWidget {
   const AddViewHome({super.key});
@@ -36,6 +37,9 @@ class AddColumn extends StatefulWidget {
 class _AddColumnState extends State<AddColumn> {
   @override
   Widget build(BuildContext context) {
+    var _name = TextEditingController();
+    var _email = TextEditingController();
+    var _password = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -48,16 +52,17 @@ class _AddColumnState extends State<AddColumn> {
               children: [
                 const SizedBox(
                   child: Text(
-                    'Operator Create',
+                    'Add Operator',
                     style: TextStyle(color: Colors.amber, fontSize: 28),
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
-                const SizedBox(
+                SizedBox(
                   width: 600,
                   child: TextField(
+                    controller: _name,
                     keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: LanguageItems.nameTitle,
@@ -70,11 +75,12 @@ class _AddColumnState extends State<AddColumn> {
                 const SizedBox(
                   height: 20,
                 ),
-                const SizedBox(
+                SizedBox(
                   width: 600,
                   child: TextField(
+                    controller: _email,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: LanguageItems.mailTitle,
@@ -87,14 +93,15 @@ class _AddColumnState extends State<AddColumn> {
                 const SizedBox(
                   height: 20,
                 ),
-                const SizedBox(
+                SizedBox(
                   width: 600,
                   child: TextField(
+                    controller: _password,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: LanguageItems.passwordTitle,
@@ -112,27 +119,52 @@ class _AddColumnState extends State<AddColumn> {
                         backgroundColor:
                             MaterialStatePropertyAll(Colors.black12),
                       ),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Başarılı'),
-                              content: const Text('Operator Oluşturuldu.'),
-                              actions: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Tamam'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                      onPressed: () async {
+                        String name = _name.text;
+                        String email = _email.text;
+                        String password = _password.text;
+                        bool isAddOperator =
+                            await addQuery(name, email, password);
+                        if (!isAddOperator) {
+                          showDialog(
+                            context: (context),
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Success'),
+                                content: const Text('Operator created.'),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          showDialog(
+                            context: (context),
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Error'),
+                                content: const Text('Error failed.'),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
                       child: const Text(
-                        'Create',
+                        'Add',
                       )),
                 )
               ],
@@ -166,7 +198,7 @@ class _AddRowState extends State<AddRow> {
               children: [
                 const SizedBox(
                   child: Text(
-                    'Operator Create',
+                    'Add Operator',
                     style: TextStyle(color: Colors.amber, fontSize: 28),
                   ),
                 ),
@@ -235,14 +267,14 @@ class _AddRowState extends State<AddRow> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text('Başarılı'),
-                              content: const Text('Operator Oluşturuldu.'),
+                              title: const Text('Success'),
+                              content: const Text('Operator created.'),
                               actions: [
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: const Text('Tamam'),
+                                  child: const Text('OK'),
                                 ),
                               ],
                             );
@@ -250,7 +282,7 @@ class _AddRowState extends State<AddRow> {
                         );
                       },
                       child: const Text(
-                        'Create',
+                        'Add',
                       )),
                 )
               ],
