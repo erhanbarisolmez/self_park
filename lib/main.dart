@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:self_park/screens/ControllerHome/index.dart';
 import 'package:self_park/screens/Login/index.dart';
-import 'package:self_park/screens/OperatorHome/index.dart';
 
 void main() {
   runApp(const MainApp());

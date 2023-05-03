@@ -362,11 +362,13 @@ class _AddParkRowState extends State<AddParkRow> {
                               title: const Text('Success'),
                               content: const Text('Park Created.'),
                               actions: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('OK'),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('OK'),
+                                  ),
                                 ),
                               ],
                             );

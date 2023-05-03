@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:self_park/core/db/query/controller/addOperator/listQuery.dart';
 
 class ListViewHome extends StatefulWidget {
   const ListViewHome({super.key});
@@ -31,7 +32,7 @@ class _ListViewState extends State<ListViewHome> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Row(children: [Text('$index. data')]),
+                Row(children: [Text('$index. ')]),
                 Row(
                   children: [
                     TextButton(

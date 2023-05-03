@@ -36,46 +36,48 @@ class _LokasyonColumnState extends State<LokasyonColumn> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('Send  Location',
-              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  )),
-          Column(
-            children: [
-              const SizedBox(
-                width: 600,
-                child: TextField(
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    labelText: LanguageItems.lokasyonTitle,
-                    prefixIconColor: Colors.grey,
-                    prefixIcon: Icon(Icons.add_location_alt_sharp),
+      child: Expanded(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Send  Location',
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    )),
+            Column(
+              children: [
+                const SizedBox(
+                  width: 600,
+                  child: TextField(
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      labelText: LanguageItems.lokasyonTitle,
+                      prefixIconColor: Colors.grey,
+                      prefixIcon: Icon(Icons.add_location_alt_sharp),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                  width: 100,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.amber),
-                        onPressed: () {},
-                        child: const Text('OK')),
-                  ))
-            ],
-          ),
-          Flexible(
-            child: Image.network(
-                'https://storage.googleapis.com/otosor/cms/uploads/a60da09137bd4decb1be82159afec82c.png'),
-          ),
-        ],
+                SizedBox(
+                    width: 100,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.amber),
+                          onPressed: () {},
+                          child: const Text('OK')),
+                    ))
+              ],
+            ),
+            Flexible(
+              child: Image.network(
+                  'https://storage.googleapis.com/otosor/cms/uploads/a60da09137bd4decb1be82159afec82c.png'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -91,48 +93,69 @@ class LokasyonRow extends StatefulWidget {
 class _LokasyonRowState extends State<LokasyonRow> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('Send Location',
-              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  )),
-          Column(
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const SizedBox(
-                width: 600,
-                child: TextField(
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    labelText: LanguageItems.lokasyonTitle,
-                    prefixIconColor: Colors.grey,
-                    prefixIcon: Icon(Icons.add_location_alt_sharp),
-                  ),
+              Text('Send Location',
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      )),
+              Expanded(
+                child: Column(
+                  children: [
+                    const Expanded(
+                      child: SizedBox(
+                        width: 600,
+                        child: Expanded(
+                          child: TextField(
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              labelText: LanguageItems.lokasyonTitle,
+                              prefixIconColor: Colors.grey,
+                              prefixIcon: Icon(Icons.add_location_alt_sharp),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                          width: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Expanded(
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.amber),
+                                  onPressed: () {},
+                                  child: const Text('OK')),
+                            ),
+                          )),
+                    )
+                  ],
                 ),
               ),
-              SizedBox(
-                  width: 100,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.amber),
-                        onPressed: () {},
-                        child: const Text('OK')),
-                  ))
+              Flexible(
+                child: Column(
+                  children: [
+                    Flexible(
+                      child: Image.network(
+                          'https://storage.googleapis.com/otosor/cms/uploads/a60da09137bd4decb1be82159afec82c.png'),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
-          Flexible(
-            child: Image.network(
-                'https://storage.googleapis.com/otosor/cms/uploads/a60da09137bd4decb1be82159afec82c.png'),
-          ),
-        ],
+        ),
       ),
     );
   }

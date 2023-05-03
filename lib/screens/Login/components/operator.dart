@@ -92,15 +92,15 @@ class MyColumn extends StatelessWidget {
                     context: (context),
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Hata'),
-                        content:
-                            const Text('Kullanıcı mail ya da şifre hatalı.'),
+                        title: const Text('Error'),
+                        content: const Text(
+                            'Operator mail or password is incorrect.'),
                         actions: [
                           ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: const Text('Tamam'))
+                              child: const Text('OK'))
                         ],
                       );
                     },
@@ -108,7 +108,7 @@ class MyColumn extends StatelessWidget {
                 }
               },
               child: const Text(
-                'Admin',
+                'OK',
               ),
             ),
           ),
@@ -125,87 +125,89 @@ class MyRow extends StatelessWidget {
   Widget build(BuildContext context) {
     var _email = TextEditingController();
     var _password = TextEditingController();
-    return Padding(
-      padding: _PaddingUtility().normalPadding,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 600,
-            child: TextField(
-              controller: _email,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  labelText: LanguageItems.mailTitle,
-                  prefixIconColor: Colors.white,
-                  prefixIcon: Icon(Icons.mail_lock_outlined),
-                  focusedBorder: OutlineInputBorder()),
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          SizedBox(
-            width: 600,
-            child: TextField(
-              controller: _password,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  labelText: LanguageItems.passwordTitle,
-                  prefixIconColor: Colors.white,
-                  prefixIcon: Icon(Icons.password_outlined),
-                  focusedBorder: OutlineInputBorder()),
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          SizedBox(
-            width: 100,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-              onPressed: () async {
-                String email = _email.text;
-                String password = _password.text;
-                bool isAuthenticated = await authenticateUser(
-                    email, password); // Kullanıcıyı doğrula
-                if (isAuthenticated) {
-                  Navigator.push(
-                      (context),
-                      MaterialPageRoute(
-                          builder: (context) => const OperatorHome()));
-                } else {
-                  // Kimlik doğrulaması başarısız
-                  showDialog(
-                      context: (context),
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Hata'),
-                          content:
-                              const Text('Kullanıcı mail ya da şifre hatalı.'),
-                          actions: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('Tamam'))
-                          ],
-                        );
-                      });
-                }
-              },
-              child: const Text(
-                'OK',
+    return SingleChildScrollView(
+      child: Padding(
+        padding: _PaddingUtility().normalPadding,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 600,
+              child: TextField(
+                controller: _email,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    labelText: LanguageItems.mailTitle,
+                    prefixIconColor: Colors.white,
+                    prefixIcon: Icon(Icons.mail_lock_outlined),
+                    focusedBorder: OutlineInputBorder()),
               ),
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 30,
+            ),
+            SizedBox(
+              width: 600,
+              child: TextField(
+                controller: _password,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    labelText: LanguageItems.passwordTitle,
+                    prefixIconColor: Colors.white,
+                    prefixIcon: Icon(Icons.password_outlined),
+                    focusedBorder: OutlineInputBorder()),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            SizedBox(
+              width: 100,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
+                onPressed: () async {
+                  String email = _email.text;
+                  String password = _password.text;
+                  bool isAuthenticated = await authenticateUser(
+                      email, password); // Kullanıcıyı doğrula
+                  if (isAuthenticated) {
+                    Navigator.push(
+                        (context),
+                        MaterialPageRoute(
+                            builder: (context) => const OperatorHome()));
+                  } else {
+                    // Kimlik doğrulaması başarısız
+                    showDialog(
+                        context: (context),
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Error'),
+                            content: const Text(
+                                'Operator mail or password is incorrect'),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('OK'))
+                            ],
+                          );
+                        });
+                  }
+                },
+                child: const Text(
+                  'OK',
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
