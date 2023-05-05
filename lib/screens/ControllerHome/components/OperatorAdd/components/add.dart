@@ -40,6 +40,7 @@ class _AddColumnState extends State<AddColumn> {
     var _name = TextEditingController();
     var _email = TextEditingController();
     var _password = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(

@@ -1,23 +1,52 @@
+import 'dart:io';
+
 import 'package:postgres/postgres.dart';
+import 'package:postgresql2/postgresql.dart';
 import 'package:self_park/core/db/connect.dart';
 
-Future<bool> listQuery(results) async {
-  // Operator, son 10 eklenen listeleme sorgusu
-  PostgreSQLConnection connection = await connectToDB(); // core/db/connect.dart
-  var results = await connection.query('''
-       select  * from tbl_user ORDER BY user_id desc LIMIT 3 
+Future<bool> listQuery() async {
+  // Operator, son eklenen 3 sorgusu
+  final connect = await connectToDB(); // core/db/connect.dart
+  final results = await connect.query('''
+       select  * from tbl_user ORDER BY user_id desc LIMIT 3
   ''');
-  for (var row in results) {
+  final userList =
+      results.map((row) => User.fromMap(row as Map<String, dynamic>)).toList();
+  await connect.close();
+
+  for (final user in userList) {
     print('''
-        id: ${row[0]}
-        name: ${row[1]}
-        email: ${row[2]}
-        password: ${row[3]}
+        ${user.userId},
+        ${user.name},
+        ${user.mail},
+        ${user.password}
     ''');
   }
   if (results.isNotEmpty) {
     return true;
   } else {
     return false;
+  }
+}
+
+class User {
+  final int userId;
+  final String name;
+  final String mail;
+  final String password;
+
+  User(
+      {required this.userId,
+      required this.name,
+      required this.mail,
+      required this.password});
+
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      userId: map['user_id'] as int,
+      name: map['name'] as String,
+      mail: map['email'] as String,
+      password: map['password'] as String,
+    );
   }
 }

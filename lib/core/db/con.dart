@@ -2,15 +2,6 @@ import 'package:postgres/postgres.dart';
 import 'dart:io';
 import 'dart:convert';
 
-void connection() async {
-  final conn = PostgreSQLConnection("localhost", 5432, 'postgres',
-      username: 'postgres', password: 'postgres');
-  await conn.open();
-
-  var results = await conn.query('select * from tbl_user');
-  await conn.close();
-}
-
 void main(List<String> arguments) async {
   final conn = PostgreSQLConnection("localhost", 5432, 'postgres',
       username: 'postgres', password: 'postgres');
@@ -21,18 +12,18 @@ void main(List<String> arguments) async {
 //    insert into tbl_user("name",email,"password") values('barış','baris@gmail.com','testbaris123')
 // ''');
   // READ USER DATA
-  // var results = await conn.query('select * from tbl_user');
+  var results = await conn.query('select * from tbl_user');
 
-  // for (var row in results) {
-  //   print('''
-  //       ====
-  //       id: ${row[0]}
-  //       name: ${row[1]}
-  //       email: ${row[2]}
-  //       password: ${row[3]}
-  //       ====
-  //   ''');
-  // }
+  for (var row in results) {
+    print('''
+        ====
+        id: ${row[0]}
+        name: ${row[1]}
+        email: ${row[2]}
+        password: ${row[3]}
+        ====
+    ''');
+  }
   // print(results);
 
   //UPDATE USER
@@ -79,11 +70,11 @@ void main(List<String> arguments) async {
   // });
 
   //Reservation information
-  var resultsMap = await conn.mappedResultsQuery('''
-  select C."name", I."parkName", E.reservation_id, E.reservation_date,I.district, I."freeTime" 
-  from tbl_reservation E inner join tbl_user C on E.user_id=C.user_id inner join 
-  tbl_ispark I on I.park_id=E.park_id''');
-  print(resultsMap);
+  // var resultsMap = await conn.mappedResultsQuery('''
+  // select C."name", I."parkName", E.reservation_id, E.reservation_date,I.district, I."freeTime"
+  // from tbl_reservation E inner join tbl_user C on E.user_id=C.user_id inner join
+  // tbl_ispark I on I.park_id=E.park_id''');
+  // print(resultsMap);
 
   // create reservation
   // await conn.query('''
