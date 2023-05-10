@@ -6,5 +6,6 @@ Future<PostgreSQLConnection> connectToDB() async {
       "10.0.2.2", 5432, 'postgres',
       username: 'postgres', password: 'postgres');
   await connection.open();
+
   return connection;
 }

@@ -12,6 +12,7 @@ Future<bool> listQuery() async {
   ''');
   final userList =
       results.map((row) => User.fromMap(row as Map<String, dynamic>)).toList();
+  print(userList);
   await connect.close();
 
   for (final user in userList) {
