@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:self_park/core/db/connect.dart';
 //import 'package:self_park/core/db/query/controller/addOperator/listQuery.dart';
 
@@ -16,24 +12,25 @@ class ListViewHome extends StatefulWidget {
 class User {
   late final BigInt userId;
   late final String name;
-  late final String mail;
+  late final String email;
   late final String password;
 
   User(
       {required this.userId,
       required this.name,
-      required this.mail,
+      required this.email,
       required this.password});
 
   factory User.fromMap(Map<String, dynamic> map) {
     final userId = map['user_id'] as BigInt?;
-    final name = map['name'] as String?;
-    final mail = map['email'] as String?;
-    final password = map['password'] as String?;
+    final name = map['name'] as String;
+    final email = map['email'] as String;
+    final password = map['password'] as String;
+
     return User(
       userId: userId ?? BigInt.zero,
       name: name != null && name.isNotEmpty ? name : 'N/A',
-      mail: mail != null && mail.isNotEmpty ? mail : 'N/A',
+      email: email != null && email.isNotEmpty ? email : 'N/A',
       password: password != null && password.isNotEmpty ? password : 'N/A',
     );
   }
@@ -52,21 +49,25 @@ class _ListViewState extends State<ListViewHome> {
   Future<List<User>> listQuery() async {
     final connect = await connectToDB(); // core/db/connect.dart
     final results = await connect.query('''
-        select * from tbl_user ORDER BY user_id desc LIMIT 3  
+    SELECT * FROM tbl_user ORDER BY user_id DESC LIMIT 4  
   ''');
-    final userList = results // debug data geliyor.
-        .map((row) => User.fromMap(row.asMap().cast<String, dynamic>()))
-        .toList();
+
+    final userList = results.map((row) {
+      final userId = BigInt.parse(row[0].toString());
+      final name = row[1] as String;
+      final email = row[2] as String;
+      final password = row[3] as String;
+
+      return User(
+        userId: userId,
+        name: name,
+        email: email,
+        password: password,
+      );
+    }).toList();
 
     await connect.close();
-    // for (final user in userList) {
-    //   print('''
-    //     ${user.userId},
-    //     ${user.name},
-    //     ${user.mail},
-    //     ${user.password}
-    // ''');
-    // }
+
     return userList;
   }
 
@@ -81,7 +82,7 @@ class _ListViewState extends State<ListViewHome> {
       ),
       body: FutureBuilder<List<User>>(
         future: userListFuture,
-        builder: (context, snapshot) {
+        builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -90,6 +91,30 @@ class _ListViewState extends State<ListViewHome> {
             return Center(
               child: Text('Error: ${snapshot.error}'),
             );
+          } else if (snapshot.hasData) {
+            final userList = snapshot.data ?? [];
+            return ListView.builder(
+              itemCount: userList.length,
+              itemBuilder: (context, index) {
+                final user = userList[index];
+                return ListTile(
+                  title: Text(user.name),
+                  subtitle: Text(user.userId.toString()),
+                  leading: const Icon(Icons.account_box,
+                      size: 40, color: Colors.cyan),
+                  isThreeLine: true,
+                  trailing: const Icon(
+                    Icons.delete,
+                    color: Colors.teal,
+                  ),
+                  dense: false,
+                  onLongPress: () {},
+                  enabled: true,
+                );
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
           } else {
             final userList = snapshot.data ?? [];
             // debug 3 data return null
@@ -100,7 +125,7 @@ class _ListViewState extends State<ListViewHome> {
 
                 return ListTile(
                   title: Text(user.name),
-                  subtitle: Text(user.mail),
+                  subtitle: Text(user.email),
                 );
               },
             );

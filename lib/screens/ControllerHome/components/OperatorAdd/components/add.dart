@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:self_park/language/language_items.dart';
 import 'package:self_park/core/db/query/controller/addOperator/addQuery.dart';
+import 'package:self_park/language/language_items.dart';
 
 class AddViewHome extends StatefulWidget {
   const AddViewHome({super.key});
@@ -126,7 +123,7 @@ class _AddColumnState extends State<AddColumn> {
                         String password = _password.text;
                         bool isAddOperator =
                             await addQuery(name, email, password);
-                        if (!isAddOperator) {
+                        if (isAddOperator) {
                           showDialog(
                             context: (context),
                             builder: (context) {
@@ -190,7 +187,7 @@ class _AddRowState extends State<AddRow> {
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -264,7 +261,7 @@ class _AddRowState extends State<AddRow> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                         style: const ButtonStyle(
                           fixedSize: MaterialStatePropertyAll(Size(500, 50)),
