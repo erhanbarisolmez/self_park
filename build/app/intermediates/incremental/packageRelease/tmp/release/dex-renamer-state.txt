@@ -1,4 +1,0 @@
-#Wed May 03 12:56:04 TRT 2023
-base.0=/home/erhanbarisolmez/Desktop/git/self_park/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-path.0=classes.dex
-renamed.0=classes.dex

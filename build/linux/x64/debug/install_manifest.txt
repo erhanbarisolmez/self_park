@@ -5,6 +5,7 @@
 /home/erhanbarisolmez/Desktop/git/self_park/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
 /home/erhanbarisolmez/Desktop/git/self_park/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
 /home/erhanbarisolmez/Desktop/git/self_park/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/erhanbarisolmez/Desktop/git/self_park/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.smcbin
 /home/erhanbarisolmez/Desktop/git/self_park/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json
 /home/erhanbarisolmez/Desktop/git/self_park/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
 /home/erhanbarisolmez/Desktop/git/self_park/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin

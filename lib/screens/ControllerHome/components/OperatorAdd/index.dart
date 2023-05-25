@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:self_park/language/language_items.dart';
 import 'package:self_park/screens/ControllerHome/components/OperatorAdd/components/add.dart';
 import 'package:self_park/screens/ControllerHome/components/OperatorAdd/components/list.dart';
 import 'package:self_park/screens/ControllerHome/components/OperatorAdd/components/update.dart';
-
-import 'components/testlist.dart';
 
 class OperatorAdd extends StatefulWidget {
   const OperatorAdd({super.key});

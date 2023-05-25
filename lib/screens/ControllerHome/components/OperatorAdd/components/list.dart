@@ -49,7 +49,7 @@ class _ListViewState extends State<ListViewHome> {
   Future<List<User>> listQuery() async {
     final connect = await connectToDB(); // core/db/connect.dart
     final results = await connect.query('''
-    SELECT * FROM tbl_user ORDER BY user_id DESC LIMIT 4  
+    SELECT * FROM tbl_user ORDER BY user_id DESC LIMIT 10  
   ''');
 
     final userList = results.map((row) {
@@ -71,13 +71,25 @@ class _ListViewState extends State<ListViewHome> {
     return userList;
   }
 
+  Future<void> deleteUser(BigInt userId) async {
+    final connect = await connectToDB();
+    await connect.execute('''
+          delete from tbl_user where user_id = @userId
+    ''', substitutionValues: {
+      'userId': userId.toString(),
+    });
+    await connect.close();
+
+    setState(() {
+      userListFuture = listQuery();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // listQuery();
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User List'),
+        title: const Text('Last 10 Users'),
         centerTitle: true,
       ),
       body: FutureBuilder<List<User>>(
@@ -93,25 +105,32 @@ class _ListViewState extends State<ListViewHome> {
             );
           } else if (snapshot.hasData) {
             final userList = snapshot.data ?? [];
-            return ListView.builder(
-              itemCount: userList.length,
-              itemBuilder: (context, index) {
-                final user = userList[index];
-                return ListTile(
-                  title: Text(user.name),
-                  subtitle: Text(user.userId.toString()),
-                  leading: const Icon(Icons.account_box,
-                      size: 40, color: Colors.cyan),
-                  isThreeLine: true,
-                  trailing: const Icon(
-                    Icons.delete,
-                    color: Colors.teal,
-                  ),
-                  dense: false,
-                  onLongPress: () {},
-                  enabled: true,
-                );
-              },
+            return Padding(
+              padding: const EdgeInsets.all(100),
+              child: ListView.builder(
+                itemCount: userList.length,
+                itemBuilder: (context, index) {
+                  final user = userList[index];
+                  return ListTile(
+                    title: Text(user.name),
+                    subtitle: Text(
+                        "id: ${user.userId.toString()}       mail : ${user.email}"),
+                    leading: Icon(Icons.account_box,
+                        size: 50, color: Colors.yellow.shade100),
+                    isThreeLine: true,
+                    trailing: Icon(
+                      Icons.delete,
+                      color: Colors.orange.shade100,
+                      size: 28,
+                    ),
+                    dense: false,
+                    onTap: () {
+                      deleteUser(user.userId);
+                    },
+                    enabled: true,
+                  );
+                },
+              ),
             );
           } else if (snapshot.hasError) {
             return Text(snapshot.error.toString());
