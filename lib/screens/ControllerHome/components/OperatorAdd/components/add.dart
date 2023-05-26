@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:self_park/core/db/query/controller/addOperator/addQuery.dart';
 import 'package:self_park/language/language_items.dart';
 
+import 'list.dart';
+
 class AddViewHome extends StatefulWidget {
   const AddViewHome({super.key});
 
@@ -125,9 +127,13 @@ class _AddColumnState extends State<AddColumn> {
                         if (name.isNotEmpty &&
                             email.isNotEmpty &&
                             password.isNotEmpty) {
-                          bool isAddOperator =
-                              await addQuery(name, email, password);
+                          bool isAddOperator = await addQuery(
+                            name,
+                            email,
+                            password,
+                          );
                           if (!isAddOperator) {
+                            // ignore: use_build_context_synchronously
                             showDialog(
                               context: context,
                               builder: (context) {
@@ -138,6 +144,7 @@ class _AddColumnState extends State<AddColumn> {
                                     ElevatedButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
+                                        navigateTolist();
                                       },
                                       child: const Text('OK'),
                                     ),
@@ -145,13 +152,15 @@ class _AddColumnState extends State<AddColumn> {
                                 );
                               },
                             );
-                          } else {
+                          } else if (!isAddOperator &&
+                              email == 'robo@robo.com') {
+                            // ignore: use_build_context_synchronously
                             showDialog(
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
                                   title: const Text('Error'),
-                                  content: const Text('Error failed.'),
+                                  content: const Text('Email already exists.'),
                                   actions: [
                                     ElevatedButton(
                                       onPressed: () {
@@ -193,6 +202,17 @@ class _AddColumnState extends State<AddColumn> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void navigateTolist() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return const ListViewHome();
+        },
       ),
     );
   }
@@ -301,6 +321,7 @@ class _AddRowState extends State<AddRow> {
                           bool isAddOperator =
                               await addQuery(name, email, password);
                           if (!isAddOperator) {
+                            // ignore: use_build_context_synchronously
                             showDialog(
                               context: context,
                               builder: (context) {
@@ -319,6 +340,7 @@ class _AddRowState extends State<AddRow> {
                               },
                             );
                           } else {
+                            // ignore: use_build_context_synchronously
                             showDialog(
                               context: context,
                               builder: (context) {

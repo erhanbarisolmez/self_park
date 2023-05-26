@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:postgres/postgres.dart';
-import 'package:postgresql2/postgresql.dart';
 import 'package:self_park/core/db/connect.dart';
 
 Future<bool> listQuery() async {
