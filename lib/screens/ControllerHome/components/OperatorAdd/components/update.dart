@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:self_park/core/db/connect.dart';
-import 'package:self_park/language/language_items.dart';
+import 'package:self_park/language/language_items.dart' show LanguageItems;
 
 class UpdateViewHome extends StatefulWidget {
   const UpdateViewHome({Key? key}) : super(key: key);
@@ -32,6 +32,9 @@ class UpdateColumn extends StatefulWidget {
 
 class _UpdateColumnState extends State<UpdateColumn> {
   late User user;
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
 
   void onNameChanged(String value) {
     setState(() {
@@ -58,11 +61,11 @@ class _UpdateColumnState extends State<UpdateColumn> {
         substitutionValues: {'email': retrievedEmail});
 
     if (queryResult != null && queryResult.isNotEmpty) {
-      final row = queryResult[0];
+      final row = queryResult.first;
 
-      final retrievedName = row[0][1] as String;
-      final retrievedEmail = row[0][2] as String;
-      final retrievedPassword = row[0][3] as String;
+      final retrievedName = row[0] as String;
+      final retrievedEmail = row[1] as String;
+      final retrievedPassword = row[2] as String;
 
       setState(() {
         user = User(
@@ -70,10 +73,16 @@ class _UpdateColumnState extends State<UpdateColumn> {
           email: retrievedEmail,
           password: retrievedPassword,
         );
+        nameController.text = retrievedName;
+        emailController.text = retrievedEmail;
+        passwordController.text = retrievedPassword;
       });
     } else {
       setState(() {
         user = User(name: '', email: '', password: '');
+        nameController.text = '';
+        emailController.text = '';
+        passwordController = '' as TextEditingController;
       });
     }
 
@@ -97,6 +106,9 @@ class _UpdateColumnState extends State<UpdateColumn> {
   void initState() {
     super.initState();
     user = User(name: '', email: '', password: '');
+    nameController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
   }
 
   @override
@@ -121,6 +133,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
                 SizedBox(
                   width: 600,
                   child: TextField(
+                    controller: nameController,
                     onChanged: onNameChanged,
                     keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
@@ -137,6 +150,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
                 SizedBox(
                   width: 600,
                   child: TextField(
+                    controller: emailController,
                     onChanged: onEmailChanged,
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
@@ -153,6 +167,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
                 SizedBox(
                   width: 600,
                   child: TextField(
+                    controller: passwordController,
                     onChanged: onPasswordChanged,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
@@ -187,7 +202,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
                         Expanded(
                           child: ElevatedButton(
                             style: _buttonStyle().copyWith(
-                              fixedSize: MaterialStatePropertyAll(
+                              fixedSize: const MaterialStatePropertyAll(
                                 Size(400, 50),
                               ),
                             ),
