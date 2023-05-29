@@ -3,23 +3,24 @@ import 'package:self_park/core/db/connect.dart';
 
 Future<bool> addQuery(String name, String email, String password) async {
 // Controller, operator ekleme sorgusu
-  PostgreSQLConnection connection = await connectToDB(); // core/db/connect.dart
-  // mail control
+  PostgreSQLConnection? connection =
+      await connectToDB(); // core/db/connect.dart
 
   try {
-    var mailControl = await connection.query('''
+    // mail control
+    var mailControl = await connection?.query('''
         select email from tbl_user where email = @email
     ''', substitutionValues: {'email': 'email'});
-    if (mailControl.isNotEmpty) {
+    if (mailControl!.isNotEmpty) {
       return false;
     }
 
-    var result = await connection.query(
+    var result = await connection?.query(
         '''insert into tbl_user("name",email,"password") values(@name,@email,@password)''',
         substitutionValues: {"name": name, 'email': email, 'password': password});
-    await connection.close();
+    await connection!.close();
 
-    if (result.isNotEmpty) {
+    if (result!.isNotEmpty) {
       return true;
     } else {
       return false;
@@ -30,6 +31,6 @@ Future<bool> addQuery(String name, String email, String password) async {
     }
     rethrow;
   } finally {
-    await connection.close();
+    await connection!.close();
   }
 }

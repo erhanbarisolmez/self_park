@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:self_park/core/db/connect.dart';
 import 'package:self_park/language/language_items.dart';
 
 class UpdateViewHome extends StatefulWidget {
-  const UpdateViewHome({super.key});
+  const UpdateViewHome({Key? key}) : super(key: key);
 
   @override
   State<UpdateViewHome> createState() => _UpdateViewState();
@@ -23,13 +24,81 @@ class _UpdateViewState extends State<UpdateViewHome> {
 }
 
 class UpdateColumn extends StatefulWidget {
-  const UpdateColumn({super.key});
+  const UpdateColumn({Key? key}) : super(key: key);
 
   @override
   State<UpdateColumn> createState() => _UpdateColumnState();
 }
 
 class _UpdateColumnState extends State<UpdateColumn> {
+  late User user;
+
+  void onNameChanged(String value) {
+    setState(() {
+      user.name = value;
+    });
+  }
+
+  void onEmailChanged(String value) {
+    setState(() {
+      user.email = value;
+    });
+  }
+
+  void onPasswordChanged(String value) {
+    setState(() {
+      user.password = value;
+    });
+  }
+
+  Future<void> searchUser(String retrievedEmail) async {
+    final connect = await connectToDB();
+    final queryResult = await connect?.query(
+        'SELECT name, email, password FROM tbl_user WHERE email = @email',
+        substitutionValues: {'email': retrievedEmail});
+
+    if (queryResult != null && queryResult.isNotEmpty) {
+      final row = queryResult[0];
+
+      final retrievedName = row[0][1] as String;
+      final retrievedEmail = row[0][2] as String;
+      final retrievedPassword = row[0][3] as String;
+
+      setState(() {
+        user = User(
+          name: retrievedName,
+          email: retrievedEmail,
+          password: retrievedPassword,
+        );
+      });
+    } else {
+      setState(() {
+        user = User(name: '', email: '', password: '');
+      });
+    }
+
+    await connect?.close();
+  }
+
+  Future<void> updateUser() async {
+    final connect = await connectToDB();
+    await connect?.execute(
+      'UPDATE tbl_user SET name = @name, password = @password WHERE email = @email',
+      substitutionValues: {
+        'name': user.name,
+        'password': user.password,
+        'email': user.email,
+      },
+    );
+    await connect?.close();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    user = User(name: '', email: '', password: '');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,11 +118,12 @@ class _UpdateColumnState extends State<UpdateColumn> {
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
-                const SizedBox(
+                SizedBox(
                   width: 600,
                   child: TextField(
+                    onChanged: onNameChanged,
                     keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: LanguageItems.nameTitle,
@@ -64,11 +134,12 @@ class _UpdateColumnState extends State<UpdateColumn> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const SizedBox(
+                SizedBox(
                   width: 600,
                   child: TextField(
+                    onChanged: onEmailChanged,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: LanguageItems.mailTitle,
@@ -79,14 +150,15 @@ class _UpdateColumnState extends State<UpdateColumn> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const SizedBox(
+                SizedBox(
                   width: 600,
                   child: TextField(
+                    onChanged: onPasswordChanged,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: LanguageItems.passwordTitle,
@@ -101,23 +173,32 @@ class _UpdateColumnState extends State<UpdateColumn> {
                   child: SizedBox(
                     width: 600,
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                                style: _buttonStyle(),
-                                onPressed: () {},
-                                child: const Text('Search')),
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: _buttonStyle(),
+                            onPressed: () {
+                              searchUser(user.email);
+                            },
+                            child: const Text('Search'),
                           ),
-                          Expanded(
-                            child: ElevatedButton(
-                                style: _buttonStyle().copyWith(
-                                    fixedSize: const MaterialStatePropertyAll(
-                                        Size(400, 50))),
-                                onPressed: () {},
-                                child: const Text('Update')),
+                        ),
+                        Expanded(
+                          child: ElevatedButton(
+                            style: _buttonStyle().copyWith(
+                              fixedSize: MaterialStatePropertyAll(
+                                Size(400, 50),
+                              ),
+                            ),
+                            onPressed: () {
+                              updateUser();
+                            },
+                            child: const Text('Update'),
                           ),
-                        ]),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -130,7 +211,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
 }
 
 class UpdateRow extends StatefulWidget {
-  const UpdateRow({super.key});
+  const UpdateRow({Key? key}) : super(key: key);
 
   @override
   State<UpdateRow> createState() => _UpdateRowState();
@@ -208,23 +289,28 @@ class _UpdateRowState extends State<UpdateRow> {
                   child: SizedBox(
                     width: 600,
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                                style: _buttonStyle(),
-                                onPressed: () {},
-                                child: const Text('Search')),
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: _buttonStyle(),
+                            onPressed: () {},
+                            child: const Text('Search'),
                           ),
-                          Expanded(
-                            child: ElevatedButton(
-                                style: _buttonStyle().copyWith(
-                                    fixedSize: const MaterialStatePropertyAll(
-                                        Size(400, 50))),
-                                onPressed: () {},
-                                child: const Text('Update')),
+                        ),
+                        Expanded(
+                          child: ElevatedButton(
+                            style: _buttonStyle().copyWith(
+                              fixedSize: MaterialStatePropertyAll(
+                                Size(400, 50),
+                              ),
+                            ),
+                            onPressed: () {},
+                            child: const Text('Update'),
                           ),
-                        ]),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -238,6 +324,19 @@ class _UpdateRowState extends State<UpdateRow> {
 
 ButtonStyle _buttonStyle() {
   return const ButtonStyle(
-      fixedSize: MaterialStatePropertyAll(Size(190, 50)),
-      backgroundColor: MaterialStatePropertyAll(Colors.black12));
+    fixedSize: MaterialStatePropertyAll(Size(190, 50)),
+    backgroundColor: MaterialStatePropertyAll(Colors.black12),
+  );
+}
+
+class User {
+  String name;
+  String email;
+  String password;
+
+  User({
+    required this.name,
+    required this.email,
+    required this.password,
+  });
 }

@@ -127,11 +127,8 @@ class _AddColumnState extends State<AddColumn> {
                         if (name.isNotEmpty &&
                             email.isNotEmpty &&
                             password.isNotEmpty) {
-                          bool isAddOperator = await addQuery(
-                            name,
-                            email,
-                            password,
-                          );
+                          bool isAddOperator =
+                              await addQuery(name, email, password);
                           if (!isAddOperator) {
                             // ignore: use_build_context_synchronously
                             showDialog(
@@ -144,7 +141,7 @@ class _AddColumnState extends State<AddColumn> {
                                     ElevatedButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
-                                        navigateTolist();
+                                        navigateToList();
                                       },
                                       child: const Text('OK'),
                                     ),
@@ -152,8 +149,7 @@ class _AddColumnState extends State<AddColumn> {
                                 );
                               },
                             );
-                          } else if (!isAddOperator &&
-                              email == 'robo@robo.com') {
+                          } else {
                             // ignore: use_build_context_synchronously
                             showDialog(
                               context: context,
@@ -206,7 +202,7 @@ class _AddColumnState extends State<AddColumn> {
     );
   }
 
-  void navigateTolist() {
+  void navigateToList() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -332,6 +328,7 @@ class _AddRowState extends State<AddRow> {
                                     ElevatedButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
+                                        navigateToList();
                                       },
                                       child: const Text('OK'),
                                     ),
@@ -346,7 +343,7 @@ class _AddRowState extends State<AddRow> {
                               builder: (context) {
                                 return AlertDialog(
                                   title: const Text('Error'),
-                                  content: const Text('Error failed.'),
+                                  content: const Text('Email already exists.'),
                                   actions: [
                                     ElevatedButton(
                                       onPressed: () {
@@ -388,6 +385,17 @@ class _AddRowState extends State<AddRow> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> navigateToList() async {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return const ListViewHome();
+        },
       ),
     );
   }

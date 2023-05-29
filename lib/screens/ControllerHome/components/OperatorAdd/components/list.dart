@@ -48,11 +48,11 @@ class _ListViewState extends State<ListViewHome> {
 
   Future<List<User>> listQuery() async {
     final connect = await connectToDB(); // core/db/connect.dart
-    final results = await connect.query('''
+    final results = await connect?.query('''
     SELECT * FROM tbl_user ORDER BY user_id DESC LIMIT 10  
   ''');
 
-    final userList = results.map((row) {
+    final userList = results?.map((row) {
       final userId = BigInt.parse(row[0].toString());
       final name = row[1] as String;
       final email = row[2] as String;
@@ -66,14 +66,14 @@ class _ListViewState extends State<ListViewHome> {
       );
     }).toList();
 
-    await connect.close();
+    await connect!.close();
 
-    return userList;
+    return userList!;
   }
 
   Future<void> deleteUser(BigInt userId) async {
     final connect = await connectToDB();
-    await connect.execute('''
+    await connect!.execute('''
           delete from tbl_user where user_id = @userId
     ''', substitutionValues: {
       'userId': userId.toString(),

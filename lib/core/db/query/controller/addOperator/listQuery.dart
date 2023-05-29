@@ -3,15 +3,15 @@ import 'package:self_park/core/db/connect.dart';
 Future<bool> listQuery() async {
   // Operator, son eklenen 3 sorgusu
   final connect = await connectToDB(); // core/db/connect.dart
-  final results = await connect.query('''
+  final results = await connect?.query('''
        select  * from tbl_user ORDER BY user_id desc LIMIT 3
   ''');
   final userList =
-      results.map((row) => User.fromMap(row as Map<String, dynamic>)).toList();
+      results?.map((row) => User.fromMap(row as Map<String, dynamic>)).toList();
   print(userList);
-  await connect.close();
+  await connect?.close();
 
-  for (final user in userList) {
+  for (final user in userList!) {
     print('''
         ${user.userId},
         ${user.name},
@@ -19,7 +19,7 @@ Future<bool> listQuery() async {
         ${user.password}
     ''');
   }
-  if (results.isNotEmpty) {
+  if (results!.isNotEmpty) {
     return true;
   } else {
     return false;
