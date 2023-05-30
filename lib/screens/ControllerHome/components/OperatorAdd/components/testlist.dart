@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:postgresql2/constants.dart';
 import 'package:self_park/core/db/query/controller/addOperator/album.dart';
 
 import '../../../../../core/db/query/controller/addOperator/getAlbum.dart';

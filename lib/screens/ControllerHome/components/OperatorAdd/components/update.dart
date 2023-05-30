@@ -82,14 +82,14 @@ class _UpdateColumnState extends State<UpdateColumn> {
         user = User(name: '', email: '', password: '');
         nameController.text = '';
         emailController.text = '';
-        passwordController = '' as TextEditingController;
+        passwordController.text = '';
       });
     }
 
     await connect?.close();
   }
 
-  Future<void> updateUser() async {
+  Future<bool> updateUser() async {
     final connect = await connectToDB();
     await connect?.execute(
       'UPDATE tbl_user SET name = @name, password = @password WHERE email = @email',
@@ -99,7 +99,16 @@ class _UpdateColumnState extends State<UpdateColumn> {
         'email': user.email,
       },
     );
+
+    setState(() {
+      user = User(name: '', email: '', password: '');
+      nameController = TextEditingController();
+      emailController = TextEditingController();
+      passwordController = TextEditingController();
+    });
+
     await connect?.close();
+    return true;
   }
 
   @override
@@ -133,23 +142,6 @@ class _UpdateColumnState extends State<UpdateColumn> {
                 SizedBox(
                   width: 600,
                   child: TextField(
-                    controller: nameController,
-                    onChanged: onNameChanged,
-                    keyboardType: TextInputType.name,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      labelText: LanguageItems.nameTitle,
-                      prefixIconColor: Colors.white,
-                      prefixIcon: Icon(Icons.person_2),
-                      focusedBorder: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: 600,
-                  child: TextField(
                     controller: emailController,
                     onChanged: onEmailChanged,
                     keyboardType: TextInputType.emailAddress,
@@ -159,6 +151,23 @@ class _UpdateColumnState extends State<UpdateColumn> {
                       labelText: LanguageItems.mailTitle,
                       prefixIconColor: Colors.white,
                       prefixIcon: Icon(Icons.mail_outline),
+                      focusedBorder: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: 600,
+                  child: TextField(
+                    controller: nameController,
+                    onChanged: onNameChanged,
+                    keyboardType: TextInputType.name,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      labelText: LanguageItems.nameTitle,
+                      prefixIconColor: Colors.white,
+                      prefixIcon: Icon(Icons.person_2),
                       focusedBorder: OutlineInputBorder(),
                     ),
                   ),
@@ -206,8 +215,70 @@ class _UpdateColumnState extends State<UpdateColumn> {
                                 Size(400, 50),
                               ),
                             ),
-                            onPressed: () {
-                              updateUser();
+                            onPressed: () async {
+                              String nameText = nameController.text;
+                              String emailText = emailController.text;
+                              String passwordText = passwordController.text;
+
+                              if (nameText.isNotEmpty &&
+                                  emailText.isNotEmpty &&
+                                  passwordText.isNotEmpty) {
+                                bool edit = await updateUser();
+                                if (edit) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('Success'),
+                                        content: const Text('Update success.'),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('Error'),
+                                        content: const Text('Update error.'),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Error'),
+                                      content: const Text(
+                                          'Please fill in all fields.'),
+                                      actions: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
                             },
                             child: const Text('Update'),
                           ),
@@ -233,6 +304,95 @@ class UpdateRow extends StatefulWidget {
 }
 
 class _UpdateRowState extends State<UpdateRow> {
+  late User user;
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+
+  void onNameChanged(String value) {
+    setState(() {
+      user.name = value;
+    });
+  }
+
+  void onEmailChanged(String value) {
+    setState(() {
+      user.email = value;
+    });
+  }
+
+  void onPasswordChanged(String value) {
+    setState(() {
+      user.password = value;
+    });
+  }
+
+  Future<void> searchUser(String retrievedEmail) async {
+    final connect = await connectToDB();
+    final queryResult = await connect?.query(
+        'SELECT name, email, password FROM tbl_user WHERE email = @email',
+        substitutionValues: {'email': retrievedEmail});
+
+    if (queryResult != null && queryResult.isNotEmpty) {
+      final row = queryResult.first;
+
+      final retrievedName = row[0] as String;
+      final retrievedEmail = row[1] as String;
+      final retrievedPassword = row[2] as String;
+
+      setState(() {
+        user = User(
+          name: retrievedName,
+          email: retrievedEmail,
+          password: retrievedPassword,
+        );
+        nameController.text = retrievedName;
+        emailController.text = retrievedEmail;
+        passwordController.text = retrievedPassword;
+      });
+    } else {
+      setState(() {
+        user = User(name: '', email: '', password: '');
+        nameController.text = '';
+        emailController.text = '';
+        passwordController.text = '';
+      });
+    }
+
+    await connect?.close();
+  }
+
+  Future<bool> updateUser() async {
+    final connect = await connectToDB();
+    await connect?.execute(
+      'UPDATE tbl_user SET name = @name, password = @password WHERE email = @email',
+      substitutionValues: {
+        'name': user.name,
+        'password': user.password,
+        'email': user.email,
+      },
+    );
+
+    setState(() {
+      user = User(name: '', email: '', password: '');
+      nameController = TextEditingController();
+      emailController = TextEditingController();
+      passwordController = TextEditingController();
+    });
+
+    await connect?.close();
+    return true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    user = User(name: '', email: '', password: '');
+    nameController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,26 +412,13 @@ class _UpdateRowState extends State<UpdateRow> {
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
-                const SizedBox(
+                SizedBox(
                   width: 600,
                   child: TextField(
-                    keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      labelText: LanguageItems.nameTitle,
-                      prefixIconColor: Colors.white,
-                      prefixIcon: Icon(Icons.person_2),
-                      focusedBorder: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const SizedBox(
-                  width: 600,
-                  child: TextField(
+                    controller: emailController,
+                    onChanged: onEmailChanged,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: LanguageItems.mailTitle,
@@ -282,14 +429,33 @@ class _UpdateRowState extends State<UpdateRow> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const SizedBox(
+                SizedBox(
                   width: 600,
                   child: TextField(
+                    controller: nameController,
+                    onChanged: onNameChanged,
+                    keyboardType: TextInputType.name,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      labelText: LanguageItems.nameTitle,
+                      prefixIconColor: Colors.white,
+                      prefixIcon: Icon(Icons.person_2),
+                      focusedBorder: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: 600,
+                  child: TextField(
+                    controller: passwordController,
+                    onChanged: onPasswordChanged,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: LanguageItems.passwordTitle,
@@ -309,18 +475,84 @@ class _UpdateRowState extends State<UpdateRow> {
                         Expanded(
                           child: ElevatedButton(
                             style: _buttonStyle(),
-                            onPressed: () {},
+                            onPressed: () {
+                              searchUser(user.email);
+                            },
                             child: const Text('Search'),
                           ),
                         ),
                         Expanded(
                           child: ElevatedButton(
                             style: _buttonStyle().copyWith(
-                              fixedSize: MaterialStatePropertyAll(
+                              fixedSize: const MaterialStatePropertyAll(
                                 Size(400, 50),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () async {
+                              String nameText = nameController.text;
+                              String emailText = emailController.text;
+                              String passwordText = passwordController.text;
+
+                              if (nameText.isNotEmpty &&
+                                  emailText.isNotEmpty &&
+                                  passwordText.isNotEmpty) {
+                                bool edit = await updateUser();
+                                if (edit) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('Success'),
+                                        content: const Text('Update success.'),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('Error'),
+                                        content: const Text('Update error.'),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Error'),
+                                      content: const Text(
+                                          'Please fill in all fields.'),
+                                      actions: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            },
                             child: const Text('Update'),
                           ),
                         ),
