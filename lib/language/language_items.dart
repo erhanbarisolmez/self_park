@@ -8,7 +8,7 @@ class LanguageItems {
   static const heroNextTitle = "next";
   static const parkNameTitle = 'Park Name';
   static const districtTitle = "District";
-  static const fireeTimeTitle = "Firee Time";
+  static const freeTimeTitle = "Firee Time";
   static const workHoursTitle = "Work Hours";
   static const capacity = "Capacity";
   static const emptyCapacity = "Empty Capacity";

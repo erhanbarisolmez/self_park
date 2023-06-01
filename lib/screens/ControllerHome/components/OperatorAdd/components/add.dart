@@ -40,6 +40,13 @@ class _AddColumnState extends State<AddColumn> {
     var _email = TextEditingController();
     var _password = TextEditingController();
 
+    @override
+    void dispose() {
+      _name.dispose();
+      _email.dispose();
+      _password.dispose();
+    }
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(

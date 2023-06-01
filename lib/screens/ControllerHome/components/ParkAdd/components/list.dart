@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+//AboutListTile class
+
 class ListParkView extends StatefulWidget {
   const ListParkView({super.key});
 
@@ -22,12 +24,12 @@ class _ListParkViewState extends State<ListParkView> {
         },
         itemBuilder: (context, index) {
           index += 1;
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
+          return const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 SizedBox(
                   child: Text('name:'),
                 ),

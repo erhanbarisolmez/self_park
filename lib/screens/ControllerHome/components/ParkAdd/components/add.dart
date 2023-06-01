@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:self_park/core/db/query/controller/addPark/parkAddQuery.dart';
 
 import '../../../../../language/language_items.dart';
 
@@ -25,7 +26,7 @@ class _AddViewHomeState extends State<AddParkView> {
 }
 
 class AddParkColumn extends StatefulWidget {
-  const AddParkColumn({super.key});
+  const AddParkColumn({Key? key}) : super(key: key);
 
   @override
   State<AddParkColumn> createState() => _AddParkColumnState();
@@ -34,6 +35,32 @@ class AddParkColumn extends StatefulWidget {
 class _AddParkColumnState extends State<AddParkColumn> {
   @override
   Widget build(BuildContext context) {
+    TextEditingController _parkName = TextEditingController();
+    TextEditingController _district = TextEditingController();
+    TextEditingController _workHours = TextEditingController();
+    TextEditingController _freeTime = TextEditingController();
+    TextEditingController _capacity = TextEditingController();
+    TextEditingController _emptyCapacity = TextEditingController();
+
+    setState(() {
+      _parkName.text = "";
+      _district.text = "";
+      _workHours.text = "";
+      _freeTime.text = "";
+      _capacity.text = "";
+      _emptyCapacity.text = "";
+    });
+    @override
+    void dispose() {
+      _parkName.dispose();
+      _district.dispose();
+      _workHours.dispose();
+      _freeTime.dispose();
+      _capacity.dispose();
+      _emptyCapacity.dispose();
+      super.dispose();
+    }
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -51,11 +78,12 @@ class _AddParkColumnState extends State<AddParkColumn> {
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
-                const SizedBox(
+                SizedBox(
                   width: 600,
                   child: TextField(
+                    controller: _parkName,
                     keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: LanguageItems.parkNameTitle,
@@ -70,12 +98,13 @@ class _AddParkColumnState extends State<AddParkColumn> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 270,
                       child: TextField(
+                        controller: _district,
                         keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
@@ -86,28 +115,30 @@ class _AddParkColumnState extends State<AddParkColumn> {
                         ),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(left: 5)),
+                    const Padding(padding: EdgeInsets.only(left: 5)),
                     SizedBox(
                       width: 160,
                       child: TextField(
+                        controller: _freeTime,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          labelText: LanguageItems.fireeTimeTitle,
+                          labelText: LanguageItems.freeTimeTitle,
                           prefixIconColor: Colors.white,
                           prefixIcon: Icon(Icons.more_time_sharp),
                           focusedBorder: OutlineInputBorder(),
                         ),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(left: 5)),
+                    const Padding(padding: EdgeInsets.only(left: 5)),
                     SizedBox(
                       width: 160,
                       child: TextField(
+                        controller: _workHours,
                         keyboardType: TextInputType.visiblePassword,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
@@ -125,15 +156,16 @@ class _AddParkColumnState extends State<AddParkColumn> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 297,
                       child: TextField(
+                        controller: _capacity,
                         keyboardType: TextInputType.number,
                         obscureText: true,
                         enableSuggestions: false,
                         autocorrect: false,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
@@ -144,15 +176,16 @@ class _AddParkColumnState extends State<AddParkColumn> {
                         ),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(left: 6)),
+                    const Padding(padding: EdgeInsets.only(left: 6)),
                     SizedBox(
                       width: 297,
                       child: TextField(
+                        controller: _emptyCapacity,
                         keyboardType: TextInputType.number,
                         obscureText: true,
                         enableSuggestions: false,
                         autocorrect: false,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
@@ -174,26 +207,119 @@ class _AddParkColumnState extends State<AddParkColumn> {
                             MaterialStatePropertyAll(Colors.black12),
                       ),
                       onPressed: () async {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Success'),
-                              content: const Text('Park created.'),
-                              actions: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                        String parkName = _parkName.text;
+                        String district = _district.text;
+                        String freeTime = _freeTime.text;
+                        String workHours = _workHours.text;
+                        String capacity = _capacity.text;
+                        String emptyCapacity = _emptyCapacity.text;
+
+                        if (parkName.isEmpty ||
+                            district.isEmpty ||
+                            freeTime.isEmpty ||
+                            workHours.isEmpty ||
+                            capacity.isEmpty ||
+                            emptyCapacity.isEmpty) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Error'),
+                                content:
+                                    const Text('Please fill in all fields.'),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('OK'))
+                                ],
+                              );
+                            },
+                          );
+                          return; // Daha fazla işlem yapmamak için fonksiyondan çıkıyor.
+                        }
+
+                        bool isExistingPark = await checkIfParkExists(parkName);
+                        if (isExistingPark) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Error'),
+                                content: const Text(
+                                    'Please enter another park name, it already exists.'),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('OK'))
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          int? capacityValue = int.tryParse(capacity);
+                          int? emptyCapacityValue = int.tryParse(emptyCapacity);
+                          int? freeTimeValue = int.tryParse(freeTime);
+
+                          if (capacityValue != null &&
+                              emptyCapacityValue != null &&
+                              freeTimeValue != null) {
+                            bool isAddPark = await addParkQuery(
+                                parkName,
+                                capacityValue,
+                                emptyCapacityValue,
+                                freeTimeValue,
+                                district,
+                                workHours);
+                            if (!isAddPark) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Success'),
+                                    content: const Text('Operator Created'),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            _parkName.text = "";
+                                            _district.text = "";
+                                            _workHours.text = "";
+                                            _freeTime.text = "";
+                                            _capacity.text = "";
+                                            _emptyCapacity.text = "";
+                                          },
+                                          child: const Text('OK'))
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Error'),
+                                    content: const Text('Try again.'),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Ok'))
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          }
+                        }
                       },
                       child: const Text(
-                        'OK',
+                        'Add',
                       )),
                 )
               ],
@@ -249,9 +375,9 @@ class _AddParkRowState extends State<AddParkRow> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 270,
                       child: TextField(
@@ -276,7 +402,7 @@ class _AddParkRowState extends State<AddParkRow> {
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          labelText: LanguageItems.fireeTimeTitle,
+                          labelText: LanguageItems.freeTimeTitle,
                           prefixIconColor: Colors.white,
                           prefixIcon: Icon(Icons.more_time_sharp),
                           focusedBorder: OutlineInputBorder(),
@@ -304,9 +430,9 @@ class _AddParkRowState extends State<AddParkRow> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 297,
                       child: TextField(
@@ -362,13 +488,11 @@ class _AddParkRowState extends State<AddParkRow> {
                               title: const Text('Success'),
                               content: const Text('Park Created.'),
                               actions: [
-                                Expanded(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('OK'),
-                                  ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('OK'),
                                 ),
                               ],
                             );

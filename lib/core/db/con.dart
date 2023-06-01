@@ -1,6 +1,4 @@
 import 'package:postgres/postgres.dart';
-import 'dart:io';
-import 'dart:convert';
 
 void main(List<String> arguments) async {
   final conn = PostgreSQLConnection("localhost", 5432, 'postgres',
@@ -12,19 +10,19 @@ void main(List<String> arguments) async {
 //    insert into tbl_user("name",email,"password") values('barış','baris@gmail.com','testbaris123')
 // ''');
   // READ USER DATA
-  var results = await conn.query('select * from tbl_user');
+  var results = await conn.query('https://api.ibb.gov.tr/ispark/Park');
 
-  for (var row in results) {
-    print('''
-        ====
-        id: ${row[0]}
-        name: ${row[1]}
-        email: ${row[2]}
-        password: ${row[3]}
-        ====
-    ''');
-  }
-  // print(results);
+  // for (var row in results) {
+  //   print('''
+  //       ====
+  //       id: ${row[0]}
+  //       name: ${row[1]}
+  //       email: ${row[2]}
+  //       password: ${row[3]}
+  //       ====
+  //   ''');
+  // }
+  print(results);
 
   //UPDATE USER
 //   await conn.query('''

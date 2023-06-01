@@ -94,7 +94,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          labelText: LanguageItems.fireeTimeTitle,
+                          labelText: LanguageItems.freeTimeTitle,
                           prefixIconColor: Colors.white,
                           prefixIcon: Icon(Icons.more_time_sharp),
                           focusedBorder: OutlineInputBorder(),
@@ -264,7 +264,7 @@ class _UpdateRowState extends State<UpdateRow> {
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          labelText: LanguageItems.fireeTimeTitle,
+                          labelText: LanguageItems.freeTimeTitle,
                           prefixIconColor: Colors.white,
                           prefixIcon: Icon(Icons.more_time_sharp),
                           focusedBorder: OutlineInputBorder(),
