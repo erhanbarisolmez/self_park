@@ -30,3 +30,11 @@ Future<List<Park>> parkList() async {
 
   return parkListResult!;
 }
+
+Future<void> deletePark(BigInt parkId) async {
+  final connect = await connectToDB();
+  await connect!.execute('''
+  delete from tbl_ ispark where park_id = @parkId
+''', substitutionValues: {'parkId': parkId.toString()});
+  await connect.close();
+}
