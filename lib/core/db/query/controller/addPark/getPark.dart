@@ -1,5 +1,8 @@
 import 'package:self_park/core/db/connect.dart';
+import 'package:self_park/core/db/query/controller/addOperator/listQuery.dart';
 import 'package:self_park/core/db/query/controller/addPark/models/park.dart';
+
+late Future<List<Park>> userListFuture;
 
 Future<List<Park>> parkList() async {
   final connect = await connectToDB();
@@ -37,4 +40,7 @@ Future<void> deletePark(BigInt parkId) async {
   delete from tbl_ ispark where park_id = @parkId
 ''', substitutionValues: {'parkId': parkId.toString()});
   await connect.close();
+  setState() {
+    userListFuture = listQuery() as Future<List<Park>>;
+  }
 }

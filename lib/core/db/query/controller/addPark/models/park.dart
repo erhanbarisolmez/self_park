@@ -6,6 +6,7 @@ class Park {
   late final String freeTime;
   late final String district;
   late final String workHours;
+
   Park({
     required this.parkId,
     required this.parkName,
@@ -17,20 +18,22 @@ class Park {
   });
 
   factory Park.fromMap(Map<String, dynamic> map) {
-    final parkId = map['park_id'] as BigInt?;
+    final parkId = BigInt.from(map['park_id'] as int);
     final parkName = map['parkName'] as String;
     final capacity = map['capacity'] as String;
     final emptyCapacity = map['emptyCapacity'] as String;
-    final freeTime = map['freeTime'] as String;
+    final freeTime = (map['freeTime'] as int).toString();
     final district = map['district'] as String;
     final workHours = map['workHours'] as String;
+
     return Park(
-        parkId: parkId ?? BigInt.zero,
-        parkName: parkName,
-        capacity: capacity,
-        emptyCapacity: emptyCapacity,
-        freeTime: freeTime,
-        district: district,
-        workHours: workHours);
+      parkId: parkId,
+      parkName: parkName,
+      capacity: capacity,
+      emptyCapacity: emptyCapacity,
+      freeTime: freeTime,
+      district: district,
+      workHours: workHours,
+    );
   }
 }

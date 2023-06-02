@@ -45,7 +45,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
               children: [
                 const SizedBox(
                   child: Text(
-                    'Add Park',
+                    'Edit Park',
                     style: TextStyle(color: Colors.amber, fontSize: 28),
                   ),
                 ),
@@ -215,7 +215,7 @@ class _UpdateRowState extends State<UpdateRow> {
               children: [
                 const SizedBox(
                   child: Text(
-                    'Add Park',
+                    'Edit Park',
                     style: TextStyle(color: Colors.amber, fontSize: 28),
                   ),
                 ),
