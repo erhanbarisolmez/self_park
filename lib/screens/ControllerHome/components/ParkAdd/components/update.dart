@@ -67,9 +67,9 @@ class _UpdateColumnState extends State<UpdateColumn> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 270,
                       child: TextField(
@@ -122,9 +122,9 @@ class _UpdateColumnState extends State<UpdateColumn> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 297,
                       child: TextField(
@@ -237,9 +237,9 @@ class _UpdateRowState extends State<UpdateRow> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 270,
                       child: TextField(
@@ -292,9 +292,9 @@ class _UpdateRowState extends State<UpdateRow> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 297,
                       child: TextField(

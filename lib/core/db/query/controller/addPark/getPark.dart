@@ -1,21 +1,20 @@
 import 'package:self_park/core/db/connect.dart';
-import 'package:self_park/core/db/query/controller/addOperator/listQuery.dart';
 import 'package:self_park/core/db/query/controller/addPark/models/park.dart';
 
-late Future<List<Park>> userListFuture;
+late Future<List<Park>> parkListFuture;
 
 Future<List<Park>> parkList() async {
   final connect = await connectToDB();
   final results = await connect?.query('''
-    select * from tbl_ispark order by user_id LIMIT10
+     select * from tbl_ispark order by park_id desc LIMIT 10
   ''');
 
   final parkListResult = results?.map((row) {
-    final parkId = BigInt.parse(row[0].toString());
+    final parkId = BigInt.from(row[0] as int);
     final parkName = row[1] as String;
-    final capacity = row[2] as String;
-    final emptyCapacity = row[3] as String;
-    final freeTime = row[4] as String;
+    final capacity = row[2].toString();
+    final emptyCapacity = row[3].toString();
+    final freeTime = row[4].toString();
     final district = row[5] as String;
     final workHours = row[6] as String;
 
@@ -40,7 +39,4 @@ Future<void> deletePark(BigInt parkId) async {
   delete from tbl_ ispark where park_id = @parkId
 ''', substitutionValues: {'parkId': parkId.toString()});
   await connect.close();
-  setState() {
-    userListFuture = listQuery() as Future<List<Park>>;
-  }
 }

@@ -225,6 +225,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
                                   passwordText.isNotEmpty) {
                                 bool edit = await updateUser();
                                 if (edit) {
+                                  // ignore: use_build_context_synchronously
                                   showDialog(
                                     context: context,
                                     builder: (context) {
@@ -242,6 +243,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
                                     },
                                   );
                                 } else {
+                                  // ignore: use_build_context_synchronously
                                   showDialog(
                                     context: context,
                                     builder: (context) {
@@ -498,6 +500,7 @@ class _UpdateRowState extends State<UpdateRow> {
                                   passwordText.isNotEmpty) {
                                 bool edit = await updateUser();
                                 if (edit) {
+                                  // ignore: use_build_context_synchronously
                                   showDialog(
                                     context: context,
                                     builder: (context) {
@@ -515,6 +518,7 @@ class _UpdateRowState extends State<UpdateRow> {
                                     },
                                   );
                                 } else {
+                                  // ignore: use_build_context_synchronously
                                   showDialog(
                                     context: context,
                                     builder: (context) {
