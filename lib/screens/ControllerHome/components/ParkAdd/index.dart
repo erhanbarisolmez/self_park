@@ -14,7 +14,7 @@ class ParkAdd extends StatefulWidget {
 class _ParkAddState extends State<ParkAdd> {
   @override
   Widget build(BuildContext context) {
-    final _pageController = PageController(viewportFraction: 0.9);
+    final _pageController = PageController(viewportFraction: 1);
     return Scaffold(
       floatingActionButton: Row(
         children: [

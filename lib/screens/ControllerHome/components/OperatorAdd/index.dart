@@ -12,7 +12,7 @@ class OperatorAdd extends StatefulWidget {
 }
 
 class _OperatorAddState extends State<OperatorAdd> {
-  final _pageController = PageController(viewportFraction: 0.9);
+  final _pageController = PageController(viewportFraction: 1);
 
   int _currentPageIndex = 0;
   void _updatePageIndex(int index) {
