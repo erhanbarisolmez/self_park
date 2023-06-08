@@ -449,7 +449,20 @@ class _UpdateColumnState extends State<UpdateColumn> {
                             child: ElevatedButton(
                               style: _buttonStyle(),
                               onPressed: () {
-                                deletePark(parkNameController.text);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('delete'),
+                                    content: const Text('delete?'),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('NO'))
+                                    ],
+                                  ),
+                                );
                               },
                               child: const Text('Delete'),
                             ),

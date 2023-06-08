@@ -149,18 +149,6 @@ class _ListViewState extends State<ListViewHome> {
               },
             );
           }
-
-          // if (snapshot.hasData) {
-          //   return ListView.builder(
-          //     itemCount: snapshot.data?.length,
-          //     itemBuilder: (context, index) {
-          //       return Text(snapshot.data![index].name);
-          //     },
-          //   );
-          // } else if (snapshot.hasError) {
-          //   return Text(snapshot.error.toString());
-          // }
-          // return const CircularProgressIndicator();
         },
       ),
     );

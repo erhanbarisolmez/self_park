@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:self_park/core/db/query/controller/addPark/getPark.dart';
@@ -21,6 +23,15 @@ class _ListParkViewState extends State<ListParkView> {
     parkListFuture = parkList();
   }
 
+  // Stream ile anlık bildirim
+  Stream<List<Park>> ParkListStream() async* {
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      yield await parkList();
+    }
+  }
+
+  // setState ile anlık bildirim
   // Future<List<Park>> parkList() async {
   //   final connect = await connectToDB();
   //   final results = await connect?.query('''
@@ -289,8 +300,9 @@ class _ListParkViewState extends State<ListParkView> {
       appBar: AppBar(
         title: const Text('Last 10 Park'),
       ),
-      body: FutureBuilder<List<Park>>(
-        future: parkListFuture,
+      body: StreamBuilder<List<Park>>(
+        //FutureBuilder<List<Park>>
+        stream: ParkListStream(), //future
         builder: (BuildContext context, AsyncSnapshot<List<Park>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
