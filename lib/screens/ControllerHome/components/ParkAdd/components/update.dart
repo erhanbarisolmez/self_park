@@ -133,7 +133,7 @@ class _UpdateColumnState extends State<UpdateColumn> {
     final connect = await connectToDB();
     await connect?.execute(
       '''
-   update tbl_ispark set  capacity = @capacity, "emptyCapacity"= @emptyCapacity, "freeTime"=@freeTime, district= @district, "workHours"=@workHours where "parkName"=@parkName
+   update tbl_ispark set STcapacity = @capacity, "emptyCapacity"= @emptyCapacity, "freeTime"=@freeTime, district= @district, "workHours"=@workHours where "parkName"=@parkName
         ''',
       substitutionValues: {
         'parkName': park.parkName,
@@ -174,6 +174,12 @@ class _UpdateColumnState extends State<UpdateColumn> {
       'parkName': parkName,
     });
     await connect.close();
+    parkNameController.text = '';
+    capacityController.text = '';
+    emptyCapacityController.text = '';
+    freeTimeController.text = '';
+    districtController.text = '';
+    workHoursController.text = '';
   }
 
   @override
@@ -445,27 +451,12 @@ class _UpdateColumnState extends State<UpdateColumn> {
                                 }
                               },
                               child: const Text('Update')),
-                          SizedBox(
-                            child: ElevatedButton(
-                              style: _buttonStyle(),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text('delete'),
-                                    content: const Text('delete?'),
-                                    actions: [
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('NO'))
-                                    ],
-                                  ),
-                                );
-                              },
-                              child: const Text('Delete'),
-                            ),
+                          ElevatedButton(
+                            style: _buttonStyle(),
+                            onPressed: () {
+                              deletePark(park.parkName);
+                            },
+                            child: const Text('Delete'),
                           ),
                         ]),
                   ),
