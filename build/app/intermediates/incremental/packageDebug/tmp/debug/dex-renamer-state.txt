@@ -1,4 +1,4 @@
-#Fri Jun 09 09:44:01 TRT 2023
+#Fri Jun 09 10:57:07 TRT 2023
 base.0=/home/erhanbarisolmez/Desktop/git/self_park/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
