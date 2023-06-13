@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:self_park/screens/Login/index.dart';
+
+import 'core/widgets/service_parkInfo.dart';
 
 void main() {
   runApp(const MainApp());
@@ -15,7 +16,8 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: _AppbarTheme()._apbarTheme,
       home: const Scaffold(
-        body: LoginPage(), //LoginPage ControllerHome  OperatorHome
+        body:
+            ServiceParkInfo(), //[LoginPage] ControllerHome  OperatorHome ServiceParkInfo
       ),
     );
   }
