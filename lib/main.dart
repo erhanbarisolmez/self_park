@@ -16,8 +16,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: _AppbarTheme()._apbarTheme,
       home: const Scaffold(
-        body:
-            ServiceParkInfo(), //[LoginPage] ControllerHome  OperatorHome ServiceParkInfo
+        body: ServiceParkInfo(), //LoginPage  ServiceParkInfo
       ),
     );
   }

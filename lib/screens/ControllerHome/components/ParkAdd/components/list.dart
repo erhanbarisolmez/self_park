@@ -135,7 +135,7 @@ class _ListParkViewState extends State<ListParkView> {
                             minimumSize: const Size(200, 50)),
                         onPressed: () {
                           const Icon(Icons.edit);
-                          navigateToList();
+                          //navigateToList();
                         },
                         child: Text('Edit',
                             style: GoogleFonts.rajdhani(
