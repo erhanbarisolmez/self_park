@@ -266,6 +266,18 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "socket_io_client",
+      "rootUri": "file:///home/erhanbarisolmez/.pub-cache/hosted/pub.dev/socket_io_client-2.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "socket_io_common",
+      "rootUri": "file:///home/erhanbarisolmez/.pub-cache/hosted/pub.dev/socket_io_common-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "source_span",
       "rootUri": "file:///home/erhanbarisolmez/.pub-cache/hosted/pub.dev/source_span-1.9.1",
       "packageUri": "lib/",
@@ -338,7 +350,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-06-15T13:05:03.277965Z",
+  "generated": "2023-06-19T06:24:27.878927Z",
   "generator": "pub",
   "generatorVersion": "3.0.2"
 }

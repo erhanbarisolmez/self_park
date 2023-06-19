@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:self_park/core/models/ParkInfoGetModel.dart';
 
 import '../../../../../language/language_items.dart';
 
 class UpdateParkView extends StatefulWidget {
-  const UpdateParkView({Key? key}) : super(key: key);
+  final ParkInfoGetAllModel park;
+  const UpdateParkView({Key? key, required this.park}) : super(key: key);
 
   @override
   State<UpdateParkView> createState() => _UpdateParkViewState();
@@ -16,7 +18,9 @@ class _UpdateParkViewState extends State<UpdateParkView> {
     return Scaffold(
       body: Center(
         child: deviceOrientation == Orientation.portrait
-            ? const UpdateColumn()
+            ? UpdateColumn(
+                park: widget.park,
+              )
             : const UpdateRow(),
       ),
     );
@@ -24,13 +28,33 @@ class _UpdateParkViewState extends State<UpdateParkView> {
 }
 
 class UpdateColumn extends StatefulWidget {
-  const UpdateColumn({Key? key}) : super(key: key);
+  final ParkInfoGetAllModel park;
+
+  const UpdateColumn({Key? key, required this.park}) : super(key: key);
 
   @override
   State<UpdateColumn> createState() => _UpdateColumnState();
 }
 
 class _UpdateColumnState extends State<UpdateColumn> {
+  final TextEditingController _parkNameController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  final TextEditingController _freeTimeController = TextEditingController();
+  final TextEditingController _workHoursController = TextEditingController();
+  final TextEditingController _capacityController = TextEditingController();
+  final TextEditingController _emptyCapacityController =
+      TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _parkNameController.text = widget.park.parkName!;
+    _districtController.text = widget.park.district!;
+    _freeTimeController.text = widget.park.freeTime!.toString();
+    _workHoursController.text = widget.park.workHours!.toString();
+    _capacityController.text = widget.park.capacity!.toString();
+    _emptyCapacityController.text = widget.park.emptyCapacity!.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,11 +74,13 @@ class _UpdateColumnState extends State<UpdateColumn> {
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
-                const SizedBox(
+                SizedBox(
                   width: 600,
                   child: TextField(
+                    controller: _parkNameController,
+                    cursorColor: Colors.amber,
                     keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: LanguageItems.parkNameTitle,
@@ -67,14 +93,15 @@ class _UpdateColumnState extends State<UpdateColumn> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: 270,
                       child: TextField(
+                        controller: _districtController,
                         keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
@@ -85,12 +112,13 @@ class _UpdateColumnState extends State<UpdateColumn> {
                         ),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(left: 5)),
+                    const Padding(padding: EdgeInsets.only(left: 5)),
                     SizedBox(
                       width: 160,
                       child: TextField(
+                        controller: _freeTimeController,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
@@ -101,12 +129,13 @@ class _UpdateColumnState extends State<UpdateColumn> {
                         ),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(left: 5)),
+                    const Padding(padding: EdgeInsets.only(left: 5)),
                     SizedBox(
                       width: 160,
                       child: TextField(
+                        controller: _workHoursController,
                         keyboardType: TextInputType.visiblePassword,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
@@ -122,17 +151,18 @@ class _UpdateColumnState extends State<UpdateColumn> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: 297,
                       child: TextField(
+                        controller: _capacityController,
                         keyboardType: TextInputType.name,
                         obscureText: false,
                         enableSuggestions: false,
                         autocorrect: false,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
@@ -143,15 +173,16 @@ class _UpdateColumnState extends State<UpdateColumn> {
                         ),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(left: 6)),
+                    const Padding(padding: EdgeInsets.only(left: 6)),
                     SizedBox(
                       width: 297,
                       child: TextField(
+                        controller: _emptyCapacityController,
                         keyboardType: TextInputType.name,
                         obscureText: false,
                         enableSuggestions: false,
                         autocorrect: false,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
